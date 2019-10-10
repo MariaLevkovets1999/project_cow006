@@ -29,11 +29,11 @@ class CardWidget(BaseWidget):
         card = self.card
         if card.opened:
             number_widget = QLabel(str(card.n))
-            number_widget.setStyleSheet("color: black; font-weight: bold; font-size: 14px;")
+            number_widget.setStyleSheet("color: black; font-weight: bold; font-size: 30px;")
             number_widget.setAlignment(Qt.AlignCenter)
 
             score_widget = QLabel(str(card.score))
-            score_widget.setStyleSheet("color: #ffa000; font-size: 12px;")
+            score_widget.setStyleSheet("color:black ; font-size: 20px;")
             score_widget.setAlignment(Qt.AlignCenter)
 
             score_layout = QHBoxLayout()
@@ -52,17 +52,15 @@ class CardWidget(BaseWidget):
 
             self.setLayout(layout)
 
-            self.setStyleSheet("#container_widget {background-color: #d342ff; border: 1px solid black; color: blue;}")
+            self.setStyleSheet("#container_widget {background-color: #d342ff; border: 2px solid black; color: blue;}")
         else:
             self.setStyleSheet("#container_widget {background-color: green; border: 1px solid gray;}")
 
         width, height = self.width, self.height
 
-        #self.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        
         self.setMinimumWidth(width)
         self.setMinimumHeight(height)
-        #self.setMaximumWidth(width)
-        #self.setMaximumHeight(height)
         self.resize(width, height)
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 

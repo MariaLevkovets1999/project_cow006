@@ -327,22 +327,33 @@ class Window(QMainWindow):
         """
             Обработка состояния начала нового тура
         """
+        for player in self.players:
+            player.new_tour_score()
         self.user_cards_scroll.set_accessable(True)
         self.panel_widget.start_btn_hide()
         self.run = self.game.run()
         self.game_state = 'BEGIN'
         self.step()
 
+
+
     def finish_tour(self):
         """
             Обработка состояния окончания тура
         """
+        for player in self.players:
+            player.new_tour_score()
         r = self.show_info('Тур окончен!\nНачинаем новый тур!')
         self.game = Game(self.players)
+        
         self.init_game_widgets()
+        for player in self.players:
+            player.new_tour_score()
+
 
         if SHORT_NEW_TOUR:
             self.start_tour()
+            
         else:
             self.user_cards_scroll.set_accessable(False)
             self.panel_widget.start_btn_show()
