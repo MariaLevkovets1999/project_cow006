@@ -22,7 +22,7 @@ class Player:
         self.name = name
         self.hand = []
         self.score = 0 
-        self.fullScore = 0 
+        self.tourscore = 0 
         self.is_bot = is_bot
 
     def init_hand(self, deck, maxhand):
@@ -39,6 +39,7 @@ class Player:
             Добавление штрафных очков игроку с полученных карт
         """
         self.score += sum([card.score for card in cards])
+        self.tourscore += sum([card.score for card in cards])
 
 
     def add_card(self, card):
@@ -61,43 +62,49 @@ class Player:
                 min_index = i
         return table[min_index]
 
+
+    
+
     def choose_card(self, table):
         """
             Выбор (для бота) карты, которую он положит рубашкой вверх
             Бот кладет карту с минимальной разницей между своей картой и последней картой в ряду
         
         """
+        def minPos(mylist):
+            for i in range(len(mylist)):
+                if mylist[i] < 0:
+                    mylist[i] = 10000
+            return min(mylist)
         lastcards = []
         for i, row in enumerate(table):
-            lastcards.append(row.top().n)
+            lastcards.append(row.top().n) #вытаскиваем последнюю карту из ряда
         
         B=[0]*4
         A=[[1]*len(self.hand) for i in range(4)] #Это двумерный массив из разностей последней карты в ряду и карт бота
         for j in range(4):
             for i in range(len(self.hand)):
-                A[j][i]= (abs(lastcards[j]-self.hand[i].n))   
-            B[j]=min(A[j])
+                A[j][i]= ((-lastcards[j]+self.hand[i].n))   
+            B[j]=minPos(A[j])
         for h in range(4):
-            if B.index(min(B)) == h:
-                c = A[h].index(min(A[h]))
+            if B.index(minPos(B)) == h:
+                c = A[h].index(minPos(A[h]))
                 card = self.hand.pop(c)
-
-
-
         return card
-
+        
+        
  
        
             
         #Старая версия кода, где бот берет последнюю карту
         #card = self.hand.pop()
         #return card
+
     
     def new_tour_score(self):
-        self.fullScore +=self.score
-        self.score = 0
+        self.tourscore = 0
+        
                 
 
     def __str__(self):
-        return self.name +':'+' Штраф за тур:' + str(self.score) 
-
+        return self.name +':'+' Штраф за тур:' + str(self.tourscore) + 'игра:' + str(self.score)
