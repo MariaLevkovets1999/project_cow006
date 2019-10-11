@@ -28,7 +28,7 @@ class UserCardListWidget(BaseWidget):
 
         user_cards_scroll = QScrollArea()
         user_cards_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        user_cards_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        user_cards_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         user_cards_scroll.setWidgetResizable(True)
         #self.user_cards_scroll = user_cards_scroll
 
@@ -43,7 +43,6 @@ class UserCardListWidget(BaseWidget):
 
 
         widget = QWidget()
-        user_cards_layout.setSpacing(16);
         user_cards_layout.setAlignment(Qt.AlignCenter)
         #widget.setMinimumWidth(self.frameGeometry().width() - 2)
         widget.setLayout(user_cards_layout)
