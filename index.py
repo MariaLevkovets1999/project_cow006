@@ -68,11 +68,18 @@ class Window(QMainWindow):
 
     def init_start_screen(self):
         """
-            Инициализатор старотового экрана с настройками
+            Инициализатор стартового экрана с настройками
+            
         """
+        #новое
+        welcome_widget = QLabel('Добро пожаловать в игру "Корова 006!" ', self)
+        welcome_widget.setStyleSheet("color:green ; font-size: 40px;")
+        welcome_widget.setAlignment(Qt.AlignCenter)
+        
         name_widget = QLineEdit()
         name_widget.setPlaceholderText("Ваше имя")
         name_widget.setStyleSheet('width: 200px;')
+
 
         #name_widget.setText('Мария')
         self.name_widget = name_widget
@@ -87,23 +94,34 @@ class Window(QMainWindow):
 
         self.number_widget = number_widget
 
-        start_btn = QPushButton('Старт')
+        start_btn = QPushButton('Новая игра')
         start_btn.clicked.connect(self.start_game)
         start_btn.setMaximumWidth(100)
+
+        continue_btn = QPushButton('Продолжение игры')
+        continue_btn.clicked.connect(self.start_game)
+        continue_btn.setMaximumWidth(150)
 
         control_hbox = QHBoxLayout()
         control_hbox.addWidget(start_btn)
 
+        control2_hbox = QHBoxLayout()
+        control2_hbox.addWidget(continue_btn)
+
 
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignCenter)
+        layout.addStretch(3)
 
+        layout.addWidget(welcome_widget)
         layout.addStretch(4)
+        
         layout.addWidget(name_widget)
         layout.addStretch(1)
         layout.addWidget(number_widget)
         layout.addStretch(1.2)
         layout.addLayout(control_hbox)
+        layout.addLayout(control2_hbox)
         layout.addStretch(4)
 
         hbox = QHBoxLayout()
@@ -341,7 +359,7 @@ class Window(QMainWindow):
         """
             Обработка состояния окончания тура
         """
-        for player in self.players:
+        for player in self.players: #-обнуление очков за тур  
             player.new_tour_score()
         r = self.show_info('Тур окончен!\nНачинаем новый тур!')
         self.game = Game(self.players)
@@ -476,6 +494,12 @@ class Window(QMainWindow):
             Получение текущего пользователя
         """
         return [player for player in self.players if not player.is_bot][0]
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Message', "Do you really want to close Cow 006?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 
 
@@ -485,14 +509,14 @@ if __name__ == '__main__':
         kh = 1
     else:
         kw = 0.9
-        kh = 0.75
+        kh = 0.9
 
     app = QApplication(sys.argv)
     screen = app.primaryScreen()
     size = screen.size()
 
     width, height = kw * size.width(), kh * size.height()
-    CardWidget.define_standard_size(0.084 * width, 0.22 * height)
+    CardWidget.define_standard_size(0.05 * width, 0.15 * height)
     #CardWidget.define_standard_size(width / 10, height / 4)
     ex = Window(width, height)
     if FULL_SCREEN:
